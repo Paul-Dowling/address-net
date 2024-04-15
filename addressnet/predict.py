@@ -2,7 +2,6 @@ import os
 from typing import Dict, List, Union
 import textdistance
 import tensorflow as tf
-
 import tensorflow.keras
 
 from addressnet.dataset import predict_input_fn, labels_list
