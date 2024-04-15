@@ -3,7 +3,7 @@ from typing import Dict, List, Union
 import textdistance
 import tensorflow as tf
 
-import tf.keras
+import tensorflow.keras
 
 from addressnet.dataset import predict_input_fn, labels_list
 from addressnet.lookups import street_types, street_type_abbreviation, states, street_suffix_types, flat_types, \
