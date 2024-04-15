@@ -1,8 +1,9 @@
 import os
 from typing import Dict, List, Union
 import textdistance
-import keras
+
 import tensorflow as tf
+import tf.keras
 
 from addressnet.dataset import predict_input_fn, labels_list
 from addressnet.lookups import street_types, street_type_abbreviation, states, street_suffix_types, flat_types, \
