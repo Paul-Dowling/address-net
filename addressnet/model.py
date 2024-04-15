@@ -1,7 +1,7 @@
 from typing import Dict, Optional
 
 import tensorflow as tf
-
+import tf.keras
 from addressnet.dataset import vocab, n_labels
 
 
@@ -60,13 +60,13 @@ def nnet(encoded_strings: tf.Tensor, lengths: tf.Tensor, rnn_layers: int, rnn_si
         return tf.compat.v1.nn.rnn_cell.DropoutWrapper(tf.compat.v1.nn.rnn_cell.GRUCell(rnn_size),
                                              state_keep_prob=probs, output_keep_prob=probs)
 
-    rnn_cell_fw = tf.compat.v1.nn.rnn_cell.MultiRNNCell([rnn_cell() for _ in range(rnn_layers)])
-    rnn_cell_bw = tf.compat.v1.nn.rnn_cell.MultiRNNCell([rnn_cell() for _ in range(rnn_layers)])
+    rnn_cell_fw = tf.keras.layers.GRUCell([rnn_cell() for _ in range(rnn_layers)])
+    rnn_cell_bw = tf.keras.layers.StackedRNNCells([rnn_cell() for _ in range(rnn_layers)])
 
     (rnn_output_fw, rnn_output_bw), states = tf.compat.v1.nn.bidirectional_dynamic_rnn(rnn_cell_fw, rnn_cell_bw, encoded_strings,
                                                                              lengths, dtype=tf.float32)
     rnn_output = tf.concat([rnn_output_fw, rnn_output_bw], axis=2)
-    logits = tf.compat.v1.layers.dense(rnn_output, n_labels, activation=tf.nn.elu)
+    logits = tf.keras.layers.Dense(rnn_output, n_labels, activation=tf.nn.elu)
 
     loss = None
     if labels is not None:
