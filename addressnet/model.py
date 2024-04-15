@@ -2,8 +2,6 @@ from typing import Dict, Optional
 
 import tensorflow as tf
 
-import tf.keras
-
 from addressnet.dataset import vocab, n_labels
 
 
